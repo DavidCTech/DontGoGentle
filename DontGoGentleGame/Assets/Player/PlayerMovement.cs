@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     Vector2 Movement;
     private Rigidbody2D rb;
+    private Animator anim;
 
     public float speed = 8f;
     public float jumpStrength = 8f;
@@ -15,14 +16,36 @@ public class PlayerMovement : MonoBehaviour
     public int doubleJump = 2;
 
 
+
     public void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     public void FixedUpdate()
     {
-        rb.velocity = new Vector2(Movement.x * speed, rb.velocity.y);
+        /*rb.velocity = new Vector2(Movement.x * speed, rb.velocity.y);
+        // Get the absolute value of horizontal velocity*/
+        Vector2 velocity = rb.velocity;
+        //velocity.x = Mathf.Abs(Movement.x) * speed * Mathf.Sign(Movement.x);
+        velocity.x = Movement.x * speed;
+        rb.velocity = velocity;
+        
+        float currentSpeed = Mathf.Abs(rb.velocity.x);
+        anim.SetFloat("XVelocity", currentSpeed);
+        
+        float yVelocity = rb.velocity.y;
+        anim.SetFloat("YVelocity", yVelocity);
+
+        if (Movement.x < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+        else if (Movement.x > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
     }
 
     public void OnMove(InputValue value)
@@ -36,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
         {
             // Add upward force for jumping
             rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
+            anim.SetTrigger("Jumping");
             doubleJump--;
         }
     }
@@ -47,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
         {
             //isGrounded = true;
             doubleJump = 2;
+            anim.SetBool("Grounded", true);
         }
     }
 
@@ -56,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             //isGrounded = false;
+            anim.SetBool("Grounded", false);
         }
     }
 
