@@ -6,13 +6,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerAbility : MonoBehaviour
 {
-    public GameObject hitBox1;
-    public GameObject hitBox2;
-    public GameObject hitBox3;
-
     private Animator anim;
 
-    public int attackState = 0;
+    private int attackState = 0;
     private bool canAttack = true;
     public float attackCooldown = 0.3f; // Adjust cooldown time as needed
     //private bool clickDelay = false;

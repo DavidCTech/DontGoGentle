@@ -13,7 +13,8 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
-        
+        Cursor.lockState = CursorLockMode.Locked; // Lock cursor to center of screen
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -21,4 +22,5 @@ public class PlayerStats : MonoBehaviour
     {
         
     }
+
 }
