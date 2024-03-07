@@ -5,9 +5,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private Animator anim;
+
     Vector2 Movement;
     private Rigidbody2D rb;
-    private Animator anim;
 
     public float speed = 8f;
     public float jumpStrength = 8f;

@@ -65,7 +65,7 @@ public class Enemy : MonoBehaviour
     };
 
     public EnemyType enemyType;
-    private EnemyStats currentStats;
+    public EnemyStats currentStats;
 
     public bool isHit = false; // Flag to track if the enemy is inside the trigger
 
