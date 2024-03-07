@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAbility : MonoBehaviour
 {
     public GameObject hitBox1;
     public GameObject hitBox2;
@@ -56,38 +56,4 @@ public class PlayerAttack : MonoBehaviour
         canAttack = true;
  
     }
-
-    public void EnableHitbox(int hitboxIndex)
-    {
-        switch (hitboxIndex)
-        {
-            case 1:
-                hitBox1.SetActive(true);
-                break;
-            case 2:
-                hitBox2.SetActive(true);
-                break;
-            case 3:
-                hitBox3.SetActive(true);
-                break;
-        }
-    }
-
-    public void DisableAllHitboxes(int hitboxIndex)
-    {
-        switch (hitboxIndex)
-        {
-            case 1:
-                hitBox1.SetActive(false);
-                break;
-            case 2:
-                hitBox2.SetActive(false);
-                break;
-            case 3:
-                hitBox3.SetActive(false);
-                break;
-        }
-    }
-
-
 }
