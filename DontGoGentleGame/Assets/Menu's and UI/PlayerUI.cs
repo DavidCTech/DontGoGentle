@@ -40,7 +40,7 @@ public class PlayerUI : MonoBehaviour
         if (playerStats != null && healthText != null)
         {
             // Update the health text with the player's current health
-            healthText.text = "Health: " + playerStats.Health.ToString();
+            healthText.text = "Health: " + playerStats.currentHealth.ToString();
         }
     }
 }

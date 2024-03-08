@@ -26,10 +26,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void FixedUpdate()
     {
-        /*rb.velocity = new Vector2(Movement.x * speed, rb.velocity.y);
-        // Get the absolute value of horizontal velocity*/
         Vector2 velocity = rb.velocity;
-        //velocity.x = Mathf.Abs(Movement.x) * speed * Mathf.Sign(Movement.x);
         velocity.x = Movement.x * speed;
         rb.velocity = velocity;
         

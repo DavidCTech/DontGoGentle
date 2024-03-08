@@ -6,7 +6,7 @@ public class PlayerStats : MonoBehaviour
 {
     private Animator anim;
 
-    public float Health = 10f;
+    public float currentHealth = 10f;
     public float MaxHealth = 10f;
 
     public int Defense = 3;
@@ -15,7 +15,7 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-        anim.SetFloat("Health", Health);
+        anim.SetFloat("Health", currentHealth);
 
         Cursor.lockState = CursorLockMode.Locked; // Lock cursor to center of screen
         Cursor.visible = false;
@@ -42,12 +42,13 @@ public class PlayerStats : MonoBehaviour
 
     void TakeDamage(float damage)
     {
-        Health -= damage;
-        anim.SetFloat("Health", Health);
+        currentHealth -= damage;
+        anim.SetFloat("Health", currentHealth);
 
 
-        if (Health <= 0)
+        if (currentHealth <= 0)
         {
+            anim.SetBool("Dead", true);
             Die();
         }
     }
