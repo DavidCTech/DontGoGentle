@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,9 +18,11 @@ public class Enemy : MonoBehaviour
     public struct EnemyStats
     {
         public float Health;
-        public float moveSpeed;
+        public float pointWorth;
         public float contactDamage;
     }
+
+    public static event Action<float> OnEnemyDeath;
 
     private static readonly EnemyStats[] enemyTypeStats = new EnemyStats[]
     {
@@ -27,7 +30,7 @@ public class Enemy : MonoBehaviour
         new EnemyStats
         {
             Health = 15f,
-            moveSpeed = 2f,
+            pointWorth = 200f,
             contactDamage = 1f
         },
 
@@ -35,7 +38,7 @@ public class Enemy : MonoBehaviour
         new EnemyStats
         {
             Health = 10f,
-            moveSpeed = 7f,
+            pointWorth = 100f,
             contactDamage = 2f
         },
 
@@ -43,7 +46,7 @@ public class Enemy : MonoBehaviour
         new EnemyStats
         {
             Health = 5f,
-            moveSpeed = 1.5f,
+            pointWorth = 50f,
             contactDamage = 1f
         },
 
@@ -51,7 +54,7 @@ public class Enemy : MonoBehaviour
         new EnemyStats
         {
             Health = 25f,
-            moveSpeed = 1.5f,
+            pointWorth = 250f,
             contactDamage = 3f
         },
 
@@ -59,7 +62,7 @@ public class Enemy : MonoBehaviour
         new EnemyStats
         {
             Health = 5f,
-            moveSpeed = 3f,
+            pointWorth = 150f,
             contactDamage = 1f
         }
     };
@@ -77,20 +80,25 @@ public class Enemy : MonoBehaviour
     }
 
     // Example method to apply damage to the enemy
-    public void TakeDamage(float damage)
+    public void EnemyTakeDamage(float damage)
     {
         currentStats.Health -= damage;
         if (currentStats.Health <= 0)
         {
-            Die();
+            Death();
         }
     }
 
     // Example method to handle enemy death
-    private void Die()
+    public void Death()
     {
         // Perform death logic here
         Debug.Log("Enemy died!");
+        if (OnEnemyDeath != null)
+        {
+            OnEnemyDeath(currentStats.pointWorth);
+        }
+
         Destroy(gameObject);
     }
 
@@ -99,7 +107,7 @@ public class Enemy : MonoBehaviour
         // Check if the object collided with has the tag "Sword"
         if (other.CompareTag("Sword") && !isHit)
         {
-            TakeDamage(10.0f);
+            EnemyTakeDamage(10.0f);
             isHit = true;
         }
     }

@@ -12,6 +12,10 @@ public class PlayerStats : MonoBehaviour
     public int Defense = 3;
     public int MaxDefense = 3;
 
+
+    public bool isAlive = true; // Flag to track player's alive/dead state
+
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -29,14 +33,18 @@ public class PlayerStats : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if the colliding object is tagged as an enemy
-        if (collision.gameObject.CompareTag("Enemy"))
+        // Check if the player is alive before processing collision
+        if (isAlive)
         {
-            // Get the contact damage from the enemy
-            float contactDamage = collision.gameObject.GetComponent<Enemy>().currentStats.contactDamage;
+            // Check if the colliding object is tagged as an enemy
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                // Get the contact damage from the enemy
+                float contactDamage = collision.gameObject.GetComponent<Enemy>().currentStats.contactDamage;
 
-            // Apply damage to the player
-            TakeDamage(contactDamage);
+                // Apply damage to the player
+                TakeDamage(contactDamage);
+            }
         }
     }
 
@@ -45,18 +53,21 @@ public class PlayerStats : MonoBehaviour
         currentHealth -= damage;
         anim.SetFloat("Health", currentHealth);
 
+        currentHealth = Mathf.Max(currentHealth, 0);
 
-        if (currentHealth <= 0)
+        if (currentHealth == 0)
         {
-            anim.SetBool("Dead", true);
-            Die();
+            StartCoroutine(Die());
         }
     }
 
-    void Die()
+    public IEnumerator Die()
     {
-        Debug.Log("Player died!");
-        // Implement player death logic here, e.g., respawn the player, game over screen, etc.
+        isAlive = false;
+        anim.SetTrigger("Death");
+        yield return new WaitForSeconds(2f);
+        Cursor.lockState = CursorLockMode.Confined; // Confine cursor to game window
+        Cursor.visible = true;
     }
 
 }

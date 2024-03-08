@@ -10,7 +10,7 @@ public class MushroomHostile : MonoBehaviour
     private Rigidbody2D rb;
 
     public float speed = 3f;
-    private bool isMovingLeft = false;
+    public bool isMovingLeft = false;
     public Vector2 movementDirection = Vector2.right; // Initial movement direction
 
     public GameObject player;
@@ -57,7 +57,7 @@ public class MushroomHostile : MonoBehaviour
             // Move in the specified direction
             transform.Translate(movementDirection * speed * Time.deltaTime);
             // Face the direction of movement
-            if (movementDirection.x < 0)
+            if (movementDirection.x < 0.1f)
             {
                 spriteRenderer.flipX = true;
             }
@@ -70,10 +70,13 @@ public class MushroomHostile : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Ground") || !collision.gameObject.CompareTag("Player"))
+        if (!collision.gameObject.CompareTag("Ground"))
         {
-            //isMovingLeft = !isMovingLeft; // Toggle movement direction
-            movementDirection = isMovingLeft ? Vector2.left : Vector2.right; // Set movement direction based on the toggle        }
+            if (!collision.gameObject.CompareTag("Player"))
+            {
+                isMovingLeft = !isMovingLeft; // Toggle movement direction
+                movementDirection = isMovingLeft ? Vector2.left : Vector2.right; // Set movement direction based on the toggle 
+            }
         }
     }
 
