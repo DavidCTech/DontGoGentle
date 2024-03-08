@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ScoreUI : MonoBehaviour
+public class ArenaUI : MonoBehaviour
 {
     private float score = 0;
     public TextMeshProUGUI scoreText; // Reference to the TextMeshProUGUI component for displaying score
