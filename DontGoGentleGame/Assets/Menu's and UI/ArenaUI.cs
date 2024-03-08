@@ -28,6 +28,13 @@ public class ArenaUI : MonoBehaviour
         {
             gameOver.SetActive(true);
         }
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // Quit the application
+            Application.Quit();
+        }
     }
     void UpdateScore(float points)
     {
