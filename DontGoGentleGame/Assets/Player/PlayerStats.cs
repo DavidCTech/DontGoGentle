@@ -15,20 +15,19 @@ public class PlayerStats : MonoBehaviour
 
     public bool isAlive = true; // Flag to track player's alive/dead state
 
+    private AudioSource audioSource;
+    public AudioClip deathClip;
+    public AudioClip[] hurtClips;
+
 
     void Start()
     {
         anim = GetComponent<Animator>();
         anim.SetFloat("Health", currentHealth);
+        audioSource = GetComponent<AudioSource>();
 
         Cursor.lockState = CursorLockMode.Locked; // Lock cursor to center of screen
         Cursor.visible = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -55,7 +54,16 @@ public class PlayerStats : MonoBehaviour
 
         currentHealth = Mathf.Max(currentHealth, 0);
 
-        if (currentHealth == 0)
+        if (currentHealth > 0)
+        {
+            // Play a random hurt sound
+            if (hurtClips.Length > 0)
+            {
+                int randomIndex = Random.Range(0, hurtClips.Length);
+                audioSource.PlayOneShot(hurtClips[randomIndex]);
+            }
+        }
+        else
         {
             StartCoroutine(Die());
         }
@@ -65,6 +73,8 @@ public class PlayerStats : MonoBehaviour
     {
         isAlive = false;
         anim.SetTrigger("Death");
+        audioSource.PlayOneShot(deathClip);
+        //anim.SetBool("Death", true);
         yield return new WaitForSeconds(2f);
         Cursor.lockState = CursorLockMode.Confined; // Confine cursor to game window
         Cursor.visible = true;
